@@ -1,0 +1,25 @@
+{
+
+    "name" = "duelingnetwork-js-server",
+    "description" = "Salvation Development Dueling Network server",
+    "main" = "duelingnetwork.js",
+    "version" = "0.00.001",
+    "keywords" = [
+        "duelingnetwork",
+        "yugioh",
+        "Salvation Development"
+    ],
+    
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/SalvationDevelopment/DuelingNetworkJS.git"
+        },
+        
+    "window": {
+        "toolbar":,
+        "frame":,
+        "width": 600,
+        "min-width":,
+        "height":
+        },
+}
