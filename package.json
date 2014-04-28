@@ -1,25 +1,31 @@
 {
-
-    "name" = "duelingnetwork-js-server",
-    "description" = "Salvation Development Dueling Network server",
-    "main" = "duelingnetwork.js",
-    "version" = "0.00.001",
-    "keywords" = [
+    "name": "duelingnetwork-js-server",
+    "description": "Salvation Development Dueling Network Interface",
+    "main": "index.html",
+    "version": "0.00.001",
+    "keywords": [
         "duelingnetwork",
         "yugioh",
         "Salvation Development"
     ],
-    
+
     "repository": {
         "type": "git",
         "url": "https://github.com/SalvationDevelopment/DuelingNetworkJS.git"
-        },
-        
+    },
+
     "window": {
-        "toolbar":,
-        "frame":,
+        "toolbar": true,
+        "frame": true,
         "width": 600,
-        "min-width":,
-        "height":
-        },
+        "min-width": 600,
+        "height": 600
+    },
+    "dependencies": {
+        "ws": "*",
+        "busy": "*",
+        "request" : "*",
+        "prompt" : "*",
+        "jquery" : "*"
+    }
 }
