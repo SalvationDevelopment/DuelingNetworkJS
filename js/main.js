@@ -18,24 +18,19 @@ if (require) {
         var prompt = require('prompt');
     }
 }
-var $ = require('jquery');
 
-function random32hexString() {
+
+function randomHex(length) {
     var text = "";
-
     var charset = "abcdef0123456789";
-
-    for (var i = 0; i < 32; i++)
+    for (var i = 0; i < length; i++)
         text += charset.charAt(Math.floor(Math.random() * charset.length));
-
     return text;
 }
 
-function end() {
-    return '\0';
-}
-
-function DuelingNetworkConnection(username, password) {
+function login() {
+    var username = '';
+    var password = '';
     var parameters = {
         url: 'http://duelingnetwork.com/',
         domain: 'duelingnetwork.com',
@@ -44,107 +39,34 @@ function DuelingNetworkConnection(username, password) {
         port: '1234'
     };
 
-    if (false) {
-        request.post('http://duel.duelingnetwork.com:8080/Dueling_Network/login.do', {
-            form: {
-                username: username,
-                password: password,
-                remember_me: 'true',
-                dn_id: 'fffffffffffffffffffff'
-            }
-        }, function (one, two, three) {
-            console.log(three);
-        });
-
-    }
-    if (true) {
-
-    }
-
-
+    var poster = {
+        username: username,
+        password: password,
+        remember_me: 'true',
+        dn_id: 'fffffffffffffffffffff'
+    };
 }
-prompt.start();
-//prompt.get(['username', 'password'], function (err, result) {
-//    //
-//    // Log the results.
-//    //
-//    console.log('Command-line input received:');
-//    console.log('  username: ' + result.username);
-//    console.log('  password: ' + result.password);
-//    DuelingNetworkConnection(result.username, result.password);
-//});
-http.createServer(function (req, res) {
-    if (req.method == 'POST') {
-        console.log("[200] " + req.method + " to " + req.url);
-        var fullBody = '';
 
-        req.on('data', function (chunk) {
-            // append the current chunk of data to the fullBody variable
-            fullBody += chunk.toString();
-        });
+function DuelingNetwork(username, serverSession) {
 
-        req.on('end', function () {
-
-            // request ended -> do something with the data
-            res.writeHead(200, "OK", {
-                'Content-Type': 'text/html'
-            });
-
-            // parse the received body data
-            console.log(':::::', fullBody);
-            //var decodedBody = querystring.parse(fullBody);
-
-            // output the decoded data to the HTTP response          
-            res.write('<html><head><title>Post data</title></head><body><pre>');
-            //res.write(utils.inspect(decodedBody));
-            res.write('</pre></body></html>');
-
-            res.end();
-        });
-
-    } else {
-        console.log("[405] " + req.method + " to " + req.url);
-        res.writeHead(405, "Method not supported", {
-            'Content-Type': 'text/html'
-        });
-        res.end('<html><head><title>405 - Method not supported</title></head><body><h1>Method not supported.</h1></body></html>');
-    }
-}).listen(1337, '127.0.0.1');
-console.log('Server running at http://127.0.0.1:1337/');
-prompt.get(['username', 'session'], function (err, result) {
-    //
-    // Log the results.
-    //
-    console.log('Command-line input received:');
-    console.log('  username: ' + result.username);
-    console.log('  session: ' + result.session);
-    DuelingNetwork(result.username, result.session);
-});
-
-function DuelingNetwork(username, session) {
-    var net = require('net');
-    var sessionid = random32hexString();
+    var clientSession = randomHex(32);
     var client = new net.Socket();
     var version = 'Connect19';
     var bufferBank = '';
+    var heartbeatControl;
 
+    function heartbeat() {
+        heartbeatControl = setInterval(function () {
+            client.write('Heartbeat\0');
+        }, 28000);
+    }
 
     client.connect(1234, 'duelingnetwork.com', function () {
 
-
-        function heartbeat() {
-            setInterval(function () {
-                client.write('Heartbeat\0');
-            }, 28000);
-        }
-        var datastring = version + ',' + username + ',' + session + ',' + sessionid + '\0';
+        var datastring = version + ',' + username + ',' + serverSession + ',' + clientSession + '\0';
         var message = new Buffer(datastring, 'utf-8');
-        console.log(datastring);
         client.write(message);
         heartbeat();
-
-
-
     });
 
     client.on('data', function (data) {
@@ -152,7 +74,6 @@ function DuelingNetwork(username, session) {
         var nullcheck = [];
         if (bufferBank.indexOf('\0') !== -1) {
             nullcheck = bufferBank.split('\0');
-            //console.log(nullcheck.length);
         }
 
         if (nullcheck.length > 1) {
@@ -161,9 +82,6 @@ function DuelingNetwork(username, session) {
             }
             bufferBank = nullcheck[nullcheck.length - 1];
         }
-
-        //console.log('DN:: ' + data);
-
     });
 
     client.on('close', function () {
@@ -173,9 +91,9 @@ function DuelingNetwork(username, session) {
 
 function processDNMessage(version, client, data) {
     function speak() {
-//        prompt.get(['message'], function (error, result) {
-//            client.write(version + ',Global message' + result.message);
-//        });
+        //        prompt.get(['message'], function (error, result) {
+        //            client.write(version + ',Global message' + result.message);
+        //        });
     }
     var command = '' + data;
     command.replace('\\,', ';');
