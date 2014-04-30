@@ -77,7 +77,7 @@ textarea {
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
-
+* {box-sizing: border-box;}
 @-webkit-keyframes charlieeee {
     from {
         background-position: top left;
@@ -87,7 +87,7 @@ textarea {
     }
 }
 .catchadream {
-    background-image: -webkit-linear-gradient(left, red, orange, yellow, green, lightgreen, grey, lightgreen, green, yellow, orange, red, green,green,green,green,green,green,green,green,green,yellow, green, lightgreen, grey, lightgreen, green, green);
+    background-image: -webkit-linear-gradient(left, red, orange, yellow, green, lightgreen, green, yellow, orange, red, green,green,green,green,green,green,green,green,green,yellow, green, lightgreen, green, green);
     -webkit-animation: charlieeee 10s forwards linear infinite;
     animation: charlieeee 2.5s forwards linear infinite;
     background-size: 50% auto;
@@ -104,13 +104,15 @@ main {
 main > section {
     padding: 50px;
     color:silver;
+    padding-bottom:0;
 }
 main > section > .navbar {
     position: absolute;
     top:0;
-    width: 100%;
+    width: 90%;
     background: black;
-    height:60px;
+    height:49px;
+    padding 5px;
     
 }
 h1 {font-size: 80px;}
