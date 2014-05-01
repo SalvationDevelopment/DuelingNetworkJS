@@ -22,20 +22,28 @@
 
 <body class="catchadream">
     <main role="main">
+        <div id=chat style="display:none" draggable="true" ondragstart="drag(event)">
+            <h2>Public Chat</h2>
+            <ul></ul>
+        </div>
         <section id="landing" class="sceen">
             <nav class="navbar">navigation;</nav>
             <img src="img/envoy_of_the_beginning.png" alt="" style="float:right; height:100%;">
             <img src="img/Yugioh-Logo.png" alt="" style="float:left; height:33%;">
-            <h1 style="float:left; height:33%;">Dueling
-               Network</h1>
+            <h1 style="float:left; height:33%;">Dueling Network
+            </h1>
             <div id="login" class="login">
-
+                <input id="username" placeholder="username" /><br />
+                <input type="password" id="password" placeholder="password" /><br />
+                Stay logged in<input id="remember" type="checkbox" />
+                <button onClick="login()">Login</button>
             </div>
         </section>
+        <section id='mainscreen'>
+        
+        </section>
     </main>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script>
-        window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')
+    <script src="js/vendor/jquery-1.10.2.min.js"></script>')
     </script>
     <script src="js/plugins.js"></script>
     <script src="js/main.js"></script>

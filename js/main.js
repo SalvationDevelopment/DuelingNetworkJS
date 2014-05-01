@@ -1,5 +1,6 @@
 /* jslint browser : true */
 /* jslint node : true */
+/* global $ */
 var usersOnline = {};
 
 var application = false;
@@ -12,13 +13,14 @@ if (require) {
     } finally {
         var http = require('http');
         var https = require('https');
-        var ws = require('ws');
+
         var net = require('net');
-        var request = require('request');
-        var prompt = require('prompt');
+
+
     }
 }
 
+var connection;
 
 function randomHex(length) {
     var text = "";
@@ -28,9 +30,10 @@ function randomHex(length) {
     return text;
 }
 
-function login() {
-    var username = '';
-    var password = '';
+function login(username, password, remember) {
+    username = $('#username').val();
+    password = $('#password').val();
+    remember = '' + $('#remember').val();
     var parameters = {
         url: 'http://duelingnetwork.com/',
         domain: 'duelingnetwork.com',
@@ -38,13 +41,33 @@ function login() {
         login: 'http://duel.duelingnetwork.com:8080/Dueling_Network/login.do',
         port: '1234'
     };
+    $.ajax({
+        type: "POST",
+        url: parameters.logined,
+        data: 'dn_id=ffffffffffffffffffffffffffffffff',
+        success: function (data) {
+            console.log(data);
+            var response = data.split(',');
+            if (data !== 'Not logged in') {
+                connection = DuelingNetwork(username, response[2]);
+            } else {
+                console.log('forcing', username, password);
+                $.ajax({
+                    type: "POST",
+                    url: parameters.login,
+                    data: 'username=' + username + '&password=' + password + '&remember_me=' + remember + '&dn_id=ffffffffffffffffffffffffffffffff',
+                    success: function (data) {
+                        var response = data.split(',');
+                        connection = DuelingNetwork(username, response[2]);
+                    },
+                    dataType: 'text'
+                });
+            }
+        },
+        dataType: 'text'
+    });
 
-    var poster = {
-        username: username,
-        password: password,
-        remember_me: 'true',
-        dn_id: 'fffffffffffffffffffff'
-    };
+
 }
 
 function DuelingNetwork(username, serverSession) {
@@ -67,6 +90,8 @@ function DuelingNetwork(username, serverSession) {
         var message = new Buffer(datastring, 'utf-8');
         client.write(message);
         heartbeat();
+        $('#landing, #chat, #mainscreen').toggle();
+
     });
 
     client.on('data', function (data) {
@@ -87,14 +112,17 @@ function DuelingNetwork(username, serverSession) {
     client.on('close', function () {
         console.log('Connection closed');
     });
+    return client;
+}
+
+function speak(message) {
+
+    connection.write('Connect19' + ',Global message' + message);
+
 }
 
 function processDNMessage(version, client, data) {
-    function speak() {
-        //        prompt.get(['message'], function (error, result) {
-        //            client.write(version + ',Global message' + result.message);
-        //        });
-    }
+
     var command = '' + data;
     command.replace('\\,', ';');
     command = command.split(',');
@@ -113,7 +141,8 @@ function processDNMessage(version, client, data) {
         }
     case 'Global message':
         {
-            console.log('[' + command[1] + ']: ' + command[2]);
+            console.log(data);
+            $("#chat ul").append('<li>[' + command[1] + ']: ' + command[2] + '</li>');
             break;
         }
     case 'Heartbeat':
@@ -122,7 +151,6 @@ function processDNMessage(version, client, data) {
         }
     case 'Chat unlock':
         {
-            speak();
             break;
         }
     default:
