@@ -6,18 +6,9 @@ var usersOnline = {};
 var application = false;
 if (require) {
     application = true;
-    try {
-        require('httpsys').slipStream();
-    } catch (error) {
-        console.log('Windows 8+ spefic enhancements not enabled.');
-    } finally {
-        var http = require('http');
-        var https = require('https');
-
-        var net = require('net');
-
-
-    }
+    var http = require('http');
+    var https = require('https');
+    var net = require('net');
 }
 
 var connection;
@@ -51,7 +42,7 @@ function login(username, password, remember) {
             if (data !== 'Not logged in') {
                 connection = DuelingNetwork(username, response[2]);
             } else {
-                console.log('forcing', username, password);
+                console.log('forcing login');
                 $.ajax({
                     type: "POST",
                     url: parameters.login,
@@ -115,11 +106,22 @@ function DuelingNetwork(username, serverSession) {
     return client;
 }
 
-function speak(message) {
-
-    connection.write('Connect19' + ',Global message' + message);
+function speak() {
 
 }
+$('#chat input').bind("enterKey", function (e) {
+    var message = $('#chat input').val();
+    connection.write('Global message,' + message + '\0');
+    $('#chat input').val('');
+});
+$('#chat input').keyup(function (e) {
+    if (e.keyCode == 13) {
+        $(this).trigger("enterKey");
+    }
+});
+$('.chatminimize, .minimize').on('click', function () {
+    $('#chat').toggle();
+});
 
 function processDNMessage(version, client, data) {
 
@@ -142,7 +144,10 @@ function processDNMessage(version, client, data) {
     case 'Global message':
         {
             console.log(data);
-            $("#chat ul").append('<li>[' + command[1] + ']: ' + command[2] + '</li>');
+            $("#chat ul").append('<li><span class="username' + command[3] + '">' + command[1] + '</span>: ' + command[2] + '</li>');
+            $("#chat ul").animate({
+                scrollTop: $('#chat ul')[0].scrollHeight
+            }, 1000);
             break;
         }
     case 'Heartbeat':

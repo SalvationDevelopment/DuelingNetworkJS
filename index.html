@@ -23,8 +23,9 @@
 <body class="catchadream">
     <main role="main">
         <div id=chat style="display:none" draggable="true" ondragstart="drag(event)">
-            <h2>Public Chat</h2>
+            <h2>Public Chat<div class="minimize"></div></h2>
             <ul></ul>
+            <input type="text" >
         </div>
         <section id="landing" class="sceen">
             <nav class="navbar">navigation;</nav>
@@ -39,8 +40,8 @@
                 <button onClick="login()">Login</button>
             </div>
         </section>
-        <section id='mainscreen'>
-        
+        <section id='mainscreen' style="display:none;">
+            <div class='chatminimize'></div>
         </section>
     </main>
     <script src="js/vendor/jquery-1.10.2.min.js"></script>')

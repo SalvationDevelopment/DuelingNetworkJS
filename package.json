@@ -21,11 +21,14 @@
         "min-width": 600,
         "height": 600
     },
+    "scripts": {
+        "test": "./node_modules/mocha/bin/mocha test/test"
+    },
     "dependencies": {
         "ws": "*",
         "busy": "*",
-        "request" : "*",
-        "prompt" : "*",
-        "jquery" : "*"
+        "request": "*",
+        "prompt": "*",
+        "mocha": "*"
     }
 }

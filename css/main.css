@@ -1,79 +1,3 @@
-/*! HTML5 Boilerplate v4.3.0 | MIT License | http://h5bp.com/ */
-
-/*
- * What follows is the result of much research on cross-browser styling.
- * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
- * Kroc Camen, and the H5BP dev community and team.
- */
-
-/* ==========================================================================
-   Base styles: opinionated defaults
-   ========================================================================== */
-
-html,
-button,
-input,
-select,
-textarea {
-    color: #222;
-}
-html {
-    font-size: 1em;
-    line-height: 1.4;
-}
-/*
- * Remove text-shadow in selection highlight: h5bp.com/i
- * These selection rule sets have to be separate.
- * Customize the background color to match your design.
- */
-
-::-moz-selection {
-    background: #b3d4fc;
-    text-shadow: none;
-}
-::selection {
-    background: #b3d4fc;
-    text-shadow: none;
-}
-/*
- * A better looking default horizontal rule
- */
-
-hr {
-    display: block;
-    height: 1px;
-    border: 0;
-    border-top: 1px solid #ccc;
-    margin: 1em 0;
-    padding: 0;
-}
-/*
- * Remove the gap between images, videos, audio and canvas and the bottom of
- * their containers: h5bp.com/i/440
- */
-
-audio,
-canvas,
-img,
-video {
-    vertical-align: middle;
-}
-/*
- * Remove default fieldset styles.
- */
-
-fieldset {
-    border: 0;
-    margin: 0;
-    padding: 0;
-}
-/*
- * Allow only vertical resizing of textareas.
- */
-
-textarea {
-    resize: vertical;
-}
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
@@ -81,14 +5,8 @@ textarea {
 * {
     box-sizing: border-box;
 }
-@-webkit-keyframes charlieeee {
-    from {
-        background-position: top left;
-    }
-    to {
-        background-position: top right;
-    }
-}
+/* csslint */
+
 .catchadream {
     background-image: -webkit-linear-gradient(left, red, orange, yellow, blue, lightgreen, green, yellow, orange, red, green, green, green, green, green, green, green, green, green, yellow, green, lightgreen, green, green);
     -webkit-animation: charlieeee 10s forwards linear infinite;
@@ -115,7 +33,7 @@ main > section > .navbar {
     width: 90%;
     background: black;
     height: 49px;
-    padding 5px;
+    padding: 5px;
 }
 #login {
     float: left;
@@ -126,9 +44,70 @@ main > section > .navbar {
     height: 80%;
     background: white;
     width: 254px;
-    overflow: scroll;
-    resize:both;
+    resize: both;
 }
-* h1 {
+h1 {
     font-size: 80px;
+    height: 10%;
+    padding: 0;
+    margin: 0;
+}
+#chat h2 {
+    height: 10%;
+    padding: 8px 5px;
+    margin: 0;
+    background: blue;
+    width: 100%;
+    color: white;
+}
+#chat input[type="text"] {
+    border: 1px solid blue;
+    width: 100%;
+    resize: none;
+}
+#chat {
+    height: 75%;
+    resize: both;
+    overflow: auto;
+}
+#chat ul {
+    list-style: none;
+    padding: 0 5px;
+    height: 81%;
+    overflow-y: scroll;
+    margin: 0;
+    resize: none;
+    word-wrap: break-word;
+}
+#chat span {
+    font-weight: bold;
+}
+.username0 {
+    color:blue;
+}
+.minimize {
+    height: 30px;
+    width: 30px;
+    background: orange;
+    float: right;
+    display: inline-block;
+    position: absolute;
+    top: 6px;
+    right: 13px;
+}
+.chatminimize {
+    position:absolute;
+    bottom: 40px;
+    left: 40px;
+    height: 40px;
+    width: 40px;
+    background: orange;
+}
+@-webkit-keyframes charlieeee {
+    from {
+        background-position: top left;
+    }
+    to {
+        background-position: top right;
+    }
 }
