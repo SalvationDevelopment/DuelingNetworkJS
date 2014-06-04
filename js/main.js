@@ -65,7 +65,7 @@ function DuelingNetwork(username, serverSession) {
 
     var clientSession = randomHex(32);
     var client = new net.Socket();
-    var version = 'Connect19';
+    var version = 'Connect20';
     var bufferBank = '';
     var heartbeatControl;
 
