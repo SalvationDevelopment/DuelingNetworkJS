@@ -22,27 +22,48 @@
 
 <body class="catchadream">
     <main role="main">
+        <nav class="navbar">
+            <ul>
+                <li>Main Room</li>
+                <li>Deck Editor</li>
+                <li>Ranking</li>
+            </ul>
+        </nav>
         <div id=chat style="display:none" draggable="true" ondragstart="drag(event)">
-            <h2>Public Chat<div class="minimize"></div></h2>
+            <h2>Public Chat
+                <div class="minimize"></div>
+            </h2>
             <ul></ul>
-            <input type="text" >
+            <input type="text">
+        </div>
+        <div id=private style="display:none" draggable="true" ondragstart="drag(event)">
+            <h2>orivate Chat
+                <div class="minimize"></div>
+            </h2>
+            <ul></ul>
+            <input type="text">
         </div>
         <section id="landing" class="sceen">
-            <nav class="navbar">navigation;</nav>
+
             <img src="img/envoy_of_the_beginning.png" alt="" style="float:right; height:100%;">
             <img src="img/Yugioh-Logo.png" alt="" style="float:left; height:33%;">
             <h1 style="float:left; height:33%;">Dueling Network
             </h1>
             <div id="login" class="login">
-                <input id="username" placeholder="username" /><br />
-                <input type="password" id="password" placeholder="password" /><br />
-                Stay logged in<input id="remember" type="checkbox" />
+                <input id="username" placeholder="username" />
+                <br />
+                <input type="password" id="password" placeholder="password" />
+                <br />Stay logged in
+                <input id="remember" type="checkbox" />
                 <button onClick="login()">Login</button>
             </div>
+
         </section>
         <section id='mainscreen' style="display:none;">
             <div class='chatminimize'></div>
+            <div class='privateminimize'></div>
         </section>
+        <section id="duelroom" style="display:none;"></section>
     </main>
     <script src="js/vendor/jquery-1.10.2.min.js"></script>')
     </script>

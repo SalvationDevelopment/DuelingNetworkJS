@@ -1,3 +1,9 @@
+nav ul,
+nav ol {
+    list-style: none;
+    list-style-image: none;
+    margin: 0;
+}
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
@@ -83,7 +89,7 @@ h1 {
     font-weight: bold;
 }
 .username0 {
-    color:blue;
+    color: blue;
 }
 .minimize {
     height: 30px;
@@ -96,9 +102,17 @@ h1 {
     right: 13px;
 }
 .chatminimize {
-    position:absolute;
+    position: absolute;
     bottom: 40px;
     left: 40px;
+    height: 40px;
+    width: 40px;
+    background: orange;
+}
+.privateminimize {
+    position: absolute;
+    bottom: 40px;
+    left: 100px;
     height: 40px;
     width: 40px;
     background: orange;
