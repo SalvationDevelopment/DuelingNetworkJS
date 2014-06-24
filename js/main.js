@@ -2,6 +2,24 @@
 /* jslint node : true */
 /* global $ */
 var usersOnline = {};
+var duels = { addDuel: function(propname,o) {
+	if(!propname) return false;
+	if(typeof o == "undefined") return false;
+	duels[""+propname] = o;
+	return duels;
+	},
+	removeDuel: function(prop){
+		delete duels[prop];
+		return duels;
+	}
+};
+var globalState = {
+	_state: 0,
+	pushState: function(val) {
+		globalState[globalState._state++] = val;
+		return globalState;
+	}
+};
 
 var application = false;
 if (require) {
@@ -158,6 +176,16 @@ function processDNMessage(version, client, data) {
         {
             break;
         }
+	case 'Add duels':
+		{
+			duels.addDuel(command[command.length-1],{"format":command[1],"s_or_m":command[2],"user":command[3],"stats":command[4]});
+			break;
+		}
+	case 'Remove duels':
+		{
+			duels.removeDuel(command[3]);
+			break;
+		}
     default:
         {
             console.log('DN:: ' + data);
