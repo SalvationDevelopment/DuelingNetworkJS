@@ -128,7 +128,7 @@ function speak() {
 
 }
 $('#chat input').bind("enterKey", function (e) {
-    var message = $('#chat input').val();
+    var message = $('#chat input').val().replace(/\,/g,'\\,');
     connection.write('Global message,' + message + '\0');
     $('#chat input').val('');
 });
@@ -144,7 +144,7 @@ $('.chatminimize, .minimize').on('click', function () {
 function processDNMessage(version, client, data) {
 
     var command = '' + data;
-    command.replace('\\,', ';');
+    command = command.replace(/\\,/g, '\\;');
     command = command.split(',');
     switch (command[0]) {
     case 'Online users':
@@ -161,8 +161,8 @@ function processDNMessage(version, client, data) {
         }
     case 'Global message':
         {
-            console.log(data);
-            $("#chat ul").append('<li><span class="username' + command[3] + '">' + command[1] + '</span>: ' + command[2] + '</li>');
+            globalState.pushState(data);
+            $("#chat ul").append('<li><span class="username' + command[3] + '">' + command[1] + '</span>: ' + command[2].replace(/\\;/g,',') + '</li>');
             $("#chat ul").animate({
                 scrollTop: $('#chat ul')[0].scrollHeight
             }, 1000);
