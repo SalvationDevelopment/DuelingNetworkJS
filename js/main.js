@@ -2,21 +2,48 @@
 /* jslint node : true */
 /* global $ */
 var usersOnline = {};
-var duels = { addDuel: function(propname,o) {
-	if(!propname) return false;
-	if(typeof o == "undefined") return false;
-	duels[""+propname] = o;
-	return duels;
+var duels = {
+	addDuel: function(propname, o){
+		if( typeof propname !== "string" ) {
+			return false;
+		}
+		if( typeof o !== "object" ) {
+			return false;
+		}
+		var p = String();
+		p += propname;
+		duels[p] = o;
+		return duels;
 	},
 	removeDuel: function(prop){
 		delete duels[prop];
 		return duels;
+	},
+	toList: function(f){
+		var list = [], x, i = 0, htmlList = '<ul>', aELO, bELO;
+		for(x in duels) {
+			if(typeof duels[x] === "object" && duels[x].format === f) {
+				list.push(duels[x]);
+			} else {
+				continue;
+			}
+		}
+		list = list.sort(function(a,b){
+			aELO = parseInt(a.stats.split("/")[0],10);
+			bELO = parseInt(b.stats.split("/")[0],10);
+			return bELO - aELO;
+		});
+		for(i; i < list.length; i++) {
+			htmlList += '<li class="duelentry"><span class="user">' + list[i].user + '</span>&emsp;<span class="elo">' + list[i].stats + '</span></li>';
+		}
+		htmlList += '</ul>';
+		return htmlList;
 	}
 };
 var globalState = {
-	_state: 0,
+	state: 0,
 	pushState: function(val) {
-		globalState[globalState._state++] = val;
+		globalState[globalState.state++] = val;
 		return globalState;
 	}
 };
@@ -140,6 +167,15 @@ $('#chat input').keyup(function (e) {
 $('.chatminimize, .minimize').on('click', function () {
     $('#chat').toggle();
 });
+$('#openroom').on('click',function(){
+	connection.write("Load duel room\0");
+	$('#mainscreen,#duelroom').toggle();
+	var update = setInterval(function(){
+		$('#au').html(duels.toList('au'));
+		$('#tu').html(duels.toList('tu'));
+		$('#uu').html(duels.toList('uu'));
+	},1000);
+});
 
 function processDNMessage(version, client, data) {
 
@@ -189,6 +225,7 @@ function processDNMessage(version, client, data) {
     default:
         {
             console.log('DN:: ' + data);
+			break;
         }
 
     }
